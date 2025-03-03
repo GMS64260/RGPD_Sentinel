@@ -1,0 +1,11 @@
+spacy>=3.4.0
+fr_core_news_md @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_md-3.4.0/fr_core_news_md-3.4.0-py3-none-any.whl
+pandas>=1.5.0
+streamlit>=1.20.0
+plotly>=5.10.0
+python-docx>=0.8.11
+PyPDF2>=2.11.0
+xlrd>=2.0.1
+openpyxl>=3.1.0
+pdfplumber>=0.7.0
+passlib>=1.7.4

@@ -1,0 +1,112 @@
+{
+    "3017f402-f386-4cab-97b7-c31d9a6f56e6": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-02-28 23:07:48"
+    },
+    "0928f2c1-36de-4720-96c9-6f804361b783": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-02-28 23:10:33"
+    },
+    "499dce4e-3e38-40a5-9f41-4e84f9ea97fa": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-02-28 23:35:43"
+    },
+    "3cf39e08-80d9-4a82-873e-0cb0ad2ce4c8": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-02-28 23:37:24"
+    },
+    "ded40d7c-6411-4daa-8dac-1e7c593d1b2f": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:00:50"
+    },
+    "b58bab6e-cc3a-4ff7-af61-abff02640b56": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:02:35"
+    },
+    "ff89dc3f-7257-4c3d-adc3-5261d1ba8810": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:05:08"
+    },
+    "0a3678d6-6ad9-43b9-bc94-face0b5e0e72": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:06:26"
+    },
+    "d76841c4-8ed4-4e9f-95fc-f11aa9bae697": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:14:34"
+    },
+    "00b042c0-f538-4c49-b38e-18da299b5ae4": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:20:42"
+    },
+    "438fba4b-392e-4e80-847c-7039a2ea14d6": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:21:31"
+    },
+    "1b2d2a50-a8c2-4dee-97be-e6380e33bb6e": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:25:30"
+    },
+    "efe28d5e-81a3-4936-aaa6-a4bdfa80ab1d": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 00:26:52"
+    },
+    "bc7841f8-4601-4fd7-a3d8-661ef9c48db9": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 19:43:23"
+    },
+    "82f97730-7675-4c33-b89a-e74c6f901a28": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 19:45:36"
+    },
+    "c6b425e6-951b-481b-83ff-daa1b60277a9": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 19:47:02"
+    },
+    "651ade31-e89b-4fb2-ac0e-92b4956e7229": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 19:51:20"
+    },
+    "b3a7144f-1482-49d7-a2f3-f7425e5674aa": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-01 22:48:08"
+    },
+    "784c573b-96d3-4714-bb1f-d5cf7fa0d416": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-03 09:18:34"
+    },
+    "c98657f1-040a-4ac8-a501-1b6905c82403": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-03 13:52:30"
+    },
+    "4877a054-390f-4434-9868-7a77e8d7d660": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-03 22:03:25"
+    },
+    "578ada8d-ac41-40da-a313-ba24a08aef62": {
+        "username": "admin",
+        "role": "admin",
+        "created_at": "2025-03-03 22:08:27"
+    }
+}
