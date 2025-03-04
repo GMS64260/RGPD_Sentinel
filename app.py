@@ -642,6 +642,8 @@ def main():
                         if st.button("Aller aux tâches en cours"):
                             # Stocker l'onglet dans session_state
                             st.session_state.analysis_options = "Analyses sauvegardées"
+                            # Ajouter un indicateur pour aller à l'onglet des tâches
+                            st.session_state.show_tasks_tab = True
                             st.rerun()
                 else:
                     # Mode synchrone

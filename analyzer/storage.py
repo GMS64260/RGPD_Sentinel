@@ -93,7 +93,13 @@ def saved_analyses_tab():
     st.markdown('<div class="sub-header">Analyses sauvegardées</div>', unsafe_allow_html=True)
     
     # Créer des onglets pour les analyses et les tâches en cours
-    analyses_tab, tasks_tab = st.tabs(["📊 Analyses", "⏱️ Tâches en cours"])
+    tab_names = ["📊 Analyses", "⏱️ Tâches en cours"]
+    default_tab = 1 if "show_tasks_tab" in st.session_state and st.session_state.show_tasks_tab else 0
+    analyses_tab, tasks_tab = st.tabs(tab_names, index=default_tab)
+    
+    # Réinitialiser l'indicateur pour les futures visites
+    if "show_tasks_tab" in st.session_state:
+        st.session_state.show_tasks_tab = False
     
     # Initialiser le stockage une seule fois pour être utilisé dans les deux onglets
     storage = AnalysisStorage()

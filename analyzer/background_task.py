@@ -31,11 +31,14 @@ class BackgroundTask:
         Returns:
             str: ID de la tâche
         """
+        # S'assurer que le répertoire existe
         cls.ensure_dir_exists()
         
+        # Générer un ID de tâche basé sur l'horodatage
         task_id = f"{int(time.time())}"
         task_path = cls.TASKS_DIR / f"{task_id}.json"
         
+        # Préparer les données de la tâche
         task_data = {
             "id": task_id,
             "type": task_type,
@@ -48,15 +51,33 @@ class BackgroundTask:
             "message": "Tâche créée, en attente de traitement"
         }
         
-        with open(task_path, 'w', encoding='utf-8') as f:
-            json.dump(task_data, f, indent=2)
+        # Enregistrer la tâche dans un fichier JSON
+        try:
+            with open(task_path, 'w', encoding='utf-8') as f:
+                json.dump(task_data, f, indent=2)
+                
+            # Log pour déboguer
+            print(f"Tâche créée avec l'ID {task_id} dans {task_path}")
+                
+            # Lancer le thread qui exécutera la tâche
+            thread = threading.Thread(target=cls._run_task, args=(task_id,))
+            thread.daemon = True  # Le thread s'arrêtera quand le programme principal s'arrête
+            thread.start()
             
-        # Lancer le thread qui exécutera la tâche
-        thread = threading.Thread(target=cls._run_task, args=(task_id,))
-        thread.daemon = True  # Le thread s'arrêtera quand le programme principal s'arrête
-        thread.start()
-        
-        return task_id
+            return task_id
+        except Exception as e:
+            # En cas d'erreur, créer un fichier d'erreur pour déboguer
+            error_path = cls.TASKS_DIR / f"error_{task_id}.txt"
+            try:
+                with open(error_path, 'w', encoding='utf-8') as f:
+                    f.write(f"Erreur lors de la création de la tâche: {str(e)}\n")
+                    f.write(f"Chemin de la tâche: {task_path}\n")
+                    f.write(f"Paramètres: {str(params)}\n")
+            except:
+                pass
+                
+            # Retourner quand même l'ID pour ne pas bloquer l'interface
+            return task_id
     
     @classmethod
     def _run_task(cls, task_id):
@@ -310,16 +331,29 @@ class BackgroundTask:
         cls.ensure_dir_exists()
         
         tasks = []
-        for file in cls.TASKS_DIR.glob("*.json"):
+        # Vérifier que le répertoire existe
+        if not cls.TASKS_DIR.exists():
+            print(f"Répertoire des tâches {cls.TASKS_DIR} n'existe pas!")
+            return []
+        
+        # Lister les fichiers de tâches disponibles
+        task_files = list(cls.TASKS_DIR.glob("*.json"))
+        print(f"Fichiers de tâches trouvés: {len(task_files)}")
+        
+        for file in task_files:
             try:
                 with open(file, 'r', encoding='utf-8') as f:
-                    tasks.append(json.load(f))
-            except:
+                    task_data = json.load(f)
+                    tasks.append(task_data)
+                    print(f"Tâche chargée: {file.name} - statut: {task_data.get('status', 'inconnu')}")
+            except Exception as e:
+                print(f"Erreur lors du chargement de la tâche {file}: {str(e)}")
                 continue
                 
         # Trier par date de création, plus récent en premier
         tasks.sort(key=lambda x: x.get("created_at", ""), reverse=True)
         
+        print(f"Total des tâches chargées: {len(tasks)}")
         return tasks
     
     @classmethod
