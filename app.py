@@ -18,6 +18,7 @@ import sys
 import datetime
 from io import BytesIO
 from analyzer.storage import AnalysisStorage
+from analyzer.background_task import BackgroundTask
 
 # Import du gestionnaire d'erreurs
 from analyzer.error_handler import error_handler

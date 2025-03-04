@@ -92,14 +92,89 @@ class AnalysisStorage:
 def saved_analyses_tab():
     st.markdown('<div class="sub-header">Analyses sauvegardées</div>', unsafe_allow_html=True)
     
-    storage = AnalysisStorage()
+    # Créer des onglets pour les analyses et les tâches en cours
+    analyses_tab, tasks_tab = st.tabs(["📊 Analyses", "⏱️ Tâches en cours"])
     
-    all_analyses = storage.get_all_analyses_metadata()
+    with analyses_tab:
+        storage = AnalysisStorage()
+        
+        all_analyses = storage.get_all_analyses_metadata()
     
     if not all_analyses:
         st.markdown('<div class="powerbi-card">', unsafe_allow_html=True)
         st.markdown('<div class="card-header">AUCUNE ANALYSE DISPONIBLE</div>', unsafe_allow_html=True)
         st.info("Aucune analyse n'a été sauvegardée. Veuillez effectuer une analyse pour commencer.")
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Dans l'onglet des tâches en cours
+    with tasks_tab:
+        from analyzer.background_task import BackgroundTask
+        
+        # S'assurer que le dossier des tâches existe
+        BackgroundTask.ensure_dir_exists()
+        
+        # Récupérer toutes les tâches
+        all_tasks = BackgroundTask.get_all_tasks()
+        
+        if not all_tasks:
+            st.info("Aucune tâche en cours. Les tâches terminées sont automatiquement converties en analyses.")
+            return
+        
+        st.markdown('<div class="powerbi-card">', unsafe_allow_html=True)
+        st.markdown('<div class="card-header">TÂCHES EN COURS</div>', unsafe_allow_html=True)
+        
+        # Créer un DataFrame pour l'affichage
+        tasks_data = [{
+            "ID": task.get("id", ""),
+            "Type": "Analyse de dossier" if task.get("type") == "directory_analysis" else "Analyse de fichiers",
+            "Statut": task.get("status", ""),
+            "Progression": f"{task.get('progress', 0)}%",
+            "Date de création": task.get("created_at", ""),
+            "Message": task.get("message", "")
+        } for task in all_tasks]
+        
+        tasks_df = pd.DataFrame(tasks_data)
+        st.dataframe(tasks_df, use_container_width=True)
+        
+        # Sélectionner une tâche pour voir les détails
+        if len(all_tasks) > 0:
+            task_options = {task["id"]: f"Tâche {task['id']} - {task['status']} ({task['progress']}%)" for task in all_tasks}
+            selected_task = st.selectbox(
+                "Sélectionnez une tâche pour voir les détails",
+                options=list(task_options.keys()),
+                format_func=lambda x: task_options[x]
+            )
+            
+            if selected_task:
+                # Trouver la tâche sélectionnée
+                task_details = next((t for t in all_tasks if t["id"] == selected_task), None)
+                
+                if task_details:
+                    st.write("**Détails de la tâche:**")
+                    st.json(task_details)
+                    
+                    # Si la tâche est terminée, proposer de visualiser les résultats
+                    if task_details["status"] == "completed" and "analysis_id" in task_details.get("results", {}):
+                        analysis_id = task_details["results"]["analysis_id"]
+                        if st.button("📊 Visualiser les résultats de cette tâche"):
+                            with st.spinner("Chargement de l'analyse..."):
+                                results_df, metadata = storage.get_analysis(analysis_id)
+                                if results_df is not None:
+                                    st.success(f"✅ Analyse '{metadata['name']}' chargée avec succès!")
+                                    # Importer les fonctions d'affichage
+                                    from app import show_statistics, show_risk_analysis, show_detailed_results
+                                    import analyzer.core as analyzer
+                                    show_statistics(results_df)
+                                    risk_analysis = analyzer.calculate_risk_scores(results_df.to_dict('records'))
+                                    show_risk_analysis(risk_analysis)
+                                    show_detailed_results(results_df)
+                                else:
+                                    st.error("⚠️ Impossible de charger l'analyse. Les données semblent corrompues ou manquantes.")
+        
+        # Bouton pour rafraîchir les tâches
+        if st.button("🔄 Rafraîchir les tâches"):
+            st.experimental_rerun()
+            
         st.markdown('</div>', unsafe_allow_html=True)
         return
     
